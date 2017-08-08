@@ -3,7 +3,7 @@
 
 double cal_expr::getValue()
 {
-	if (cal == true) return result;
+	if (cal == true) return _data;
 	auto begin = _tokenList.begin();
 	while (begin != _tokenList.end())
 	{
@@ -36,13 +36,13 @@ double cal_expr::getValue()
 		else
 			++begin;
 	}
-	result=_tokenList[0]->getValue();
-	//_tokenList.clear();
+	_data = _tokenList[0]->getValue();
+	_tokenList.clear();
 	cal = true;
-	return	result;
+	return	_data;
 }
 
-cal_expr::cal_expr(std::string expr, char OP) :_op((OPER_Type)OP), _expr('(' + expr + ')')
+cal_expr::cal_expr(std::string expr, char OP) :cal_number(double(), ((OPER_Type)OP)), _expr('(' + expr + ')')
 {
 	p = _expr.c_str();
 	++p;
@@ -52,7 +52,7 @@ cal_expr::cal_expr(std::string expr, char OP) :_op((OPER_Type)OP), _expr('(' + e
 	} while (*p++ != ')');
 }
 
-std::shared_ptr<cal_abs> cal_expr::ct()
+std::shared_ptr<cal_number> cal_expr::ct()
 {
 	std::string number;
 
@@ -68,7 +68,6 @@ std::shared_ptr<cal_abs> cal_expr::ct()
 	{
 		auto temp = p;
 		while (*p != ')') ++p;
-		return std::make_shared<cal_expr>(std::string(temp+1,p),*(++p));
-
+		return std::make_shared<cal_expr>(std::string(temp + 1, p), *(++p));
 	}
 }
