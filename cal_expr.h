@@ -7,7 +7,7 @@ class cal_expr :public cal_number
 {
 public:
 	double getValue() override;
-	OPER_Type getType() override { return _op; };
+	//OPER_Type getType() override { return _op; };
 	void setValue(double data) override { _data = data; };
 	cal_expr(std::string expr, char =' ');
 private:
